@@ -613,13 +613,15 @@ spec:
 
 ## Perform static analysis of user workloads and container images
 
-- You should feel comfortable analysing Dockerfiles and K8s manifest files for security improvements.
+- You should feel comfortable analyzing Dockerfiles and K8s manifest files for security improvements.
 - [KubeLinter docs: Usage](https://docs.kubelinter.io/?ref=kodekloud.com#/using-kubelinter)
 - [Kubesec docs: Usage](https://kubesec.io/#usage-example)
 
 # Monitoring, Logging and Runtime Security
 
 ## Perform behavioral analytics to detect malicious activities
+
+- Feel comfortable getting to know which pod/container is doing something wrong, i.e if a container is accessing a restricted file how you can know which pod is the one doing that (PID, file being accesed, container, pod, etc)
 
 ### Falco
 

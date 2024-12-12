@@ -1,3 +1,23 @@
+# CKS Exam tips
+
+# Guides
+
+- [Official web for the Certified Kubernetes Security Specialist (CKS) certification](https://www.cncf.io/certification/cks/)
+
+- [Guide to Certified Kubernetes Security Specialist (CKS) ](https://teckbootcamps.com/cks-exam-study-guide/) 
+
+- On September 2024 the exam curriculum changed so there are a few things that are different from the old posts you might find. You can get information on some of those changes [here](https://kodekloud.com/blog/cks-exam-updates-2024-your-complete-guide-to-certification-with-kodekloud/)
+
+# CKS Exam Syllabus (Kubernetes 1.31) 
+- [Cluster Setup - 10%](#cluster-setup)
+- [Cluster Hardening - 15%](#cluster-hardening)
+- [System Hardening - 15%](#system-hardening)
+- [Minimize Microservice Vulnerabilities - 20%](#minimize-microservice-vulnerabilities)
+- [Supply Chain Security - 20%](#supply-chain-security)
+- [Monitoring, Logging and Runtime Security - 20%](#monitoring-logging-and-runtime-security)
+
+- [Useful commands](#useful-commands)
+- [Resources](#resources)
 
 # Cluster Setup
 
@@ -114,6 +134,11 @@ spec:
           - 1.1.1.1/32
 ...
 ```
+
+### Network Policies with Cillium
+
+- [[DOC] Cillium network policy examples](https://docs.cilium.io/en/stable/security/policy/)
+- [[BLOG] Working with Cillium](https://www.sheddy.xyz/blog/intro-to-kubernetes-networking-with-cilium)
 
 ## CIS Benchmarks
 
@@ -503,7 +528,22 @@ spec:
 
 `kubectl exec <pod> -- dmesg`
 
+## Implement Pod-to-Pod encryption using Cilium
+
+- [[DOC] Cillium mutual authentication](https://docs.cilium.io/en/stable/network/servicemesh/mutual-authentication/mutual-authentication-example/#enforce-mutual-authentication)
+- [[EXAMPLE] Cillium mutual authentication](https://raw.githubusercontent.com/cilium/cilium/1.16.4/examples/kubernetes/servicemesh/cnp-with-mutual-auth.yaml)
+
 # Supply Chain Security
+
+## Understand your supply chain
+
+- [BOM docs: Usage](https://kubernetes-sigs.github.io/bom/cli-reference/bom_generate/)
+
+### Usage
+
+- By default the output is SPDX format
+
+`bom generate --image <<IMAGE>> --format json --output <<FILE>>`
 
 ## Secure your supply chain
 
@@ -557,6 +597,12 @@ spec:
 
 - Obtain the image digest of a pod `k get pod XXX -oyaml | grep imageID`
 
+## Perform static analysis of user workloads and container images
+
+- You should feel comfortable analysing Dockerfiles and K8s manifest files for security improvements.
+- [KubeLinter docs: Usage](https://docs.kubelinter.io/?ref=kodekloud.com#/using-kubelinter)
+- [Kubesec docs: Usage](https://kubesec.io/#usage-example)
+
 # Monitoring, Logging and Runtime Security
 
 ## Perform behavioral analytics to detect malicious activities
@@ -575,7 +621,6 @@ spec:
 ### Audit
 
 #### Create an audit policy file with the proper rules
-
 
 - **None** - don't log events that match this rule.
 - **Metadata** - log events with metadata (requesting user, timestamp, resource, verb, etc.) but not request or response body.
@@ -674,36 +719,12 @@ export ns="kubectl config set-context --current --namespace" #Then $ns XXX
 
 # Resources
 
+- [[DOC] CKS Exam accepted docs](https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed#certified-kubernetes-security-specialist-cks)
 - [[VIDEO] Kubernetes CKS Full Course](https://www.youtube.com/watch?v=d9xfB5qaOfg)
+- [[COURSE] A Cloud Guru CKS](https://learn.acloud.guru/course/certified-kubernetes-security-specialist/dashboard)
 - [[REPO] Kubernetes CKS Full Course](https://github.com/killer-sh/cks-course-environment)
 - [[REPO] Kubernetes CKS Full Course resources](https://github.com/killer-sh/cks-course-environment/blob/master/Resources.md)
 - [[HANDS-ON] Killercoda scenarios](https://killercoda.com/killer-shell-cks)
 - [[TOOL] Network Policy Editor](https://editor.networkpolicy.io/)
 
-Documentacion aceptada
-https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed#certified-kubernetes-security-specialist-cks
 
-Networking with Cillium
-https://www.sheddy.xyz/blog/intro-to-kubernetes-networking-with-cilium
-
-Cillium NPs with examples
-https://docs.cilium.io/en/stable/security/policy/
-
-Cillium mutual authentication
-https://docs.cilium.io/en/stable/network/servicemesh/mutual-authentication/mutual-authentication-example/#enforce-mutual-authentication
-https://raw.githubusercontent.com/cilium/cilium/1.16.4/examples/kubernetes/servicemesh/cnp-with-mutual-auth.yaml
-
-KubeLinter usage
-https://docs.kubelinter.io/?ref=kodekloud.com#/using-kubelinter
-
-Kubesec usage
-https://kubesec.io/#usage-example
-
-BOM usage
-https://kubernetes-sigs.github.io/bom/cli-reference/bom_generate/
-
-Changes un curriculum
-https://kodekloud.com/blog/cks-exam-updates-2024-your-complete-guide-to-certification-with-kodekloud/
-
-Courses
-https://learn.acloud.guru/course/certified-kubernetes-security-specialist/dashboard

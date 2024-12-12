@@ -149,8 +149,10 @@ spec:
 ## Ingress
 
 - [K8s docs: Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+- [Nginx docs: TLS](https://kubernetes.github.io/ingress-nginx/user-guide/tls/)
+- Take into consideration how to HTTP -> HTTPS redirection.
 
-Teniendo un servicio que apunte a un deployment, se puede definir un ingress que apunte al servicio
+If we have a service that directs to a deployment, we can define an ingress for that service:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -162,6 +164,7 @@ metadata:
     # this annotation removes the need for a trailing slash when calling urls
     # but it is not necessary for solving this scenario
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx # k get ingressclass
   rules:
@@ -188,7 +191,13 @@ spec:
 
 - [K8s docs: Ingress TLS](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
 
-#### Starting with a simple secret:
+#### Create a tls secret on an imperative way
+
+` kubectl create secret tls world-tls --cert=path/to/cert/file --key=path/to/key/file`
+
+#### Create a tls secret the hard way
+
+##### Starting with a simple secret:
 
 ```yaml
 apiVersion: v1
@@ -202,13 +211,13 @@ data:
 type: kubernetes.io/tls
 ```
 
-#### You can then create a cert/key:
+##### You can then create a cert/key:
 
 ```shell
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout cert.key -out cert.crt -subj "/CN=world.universe.mine/O=world.universe.mine"
 ```
 
-#### And base64 encode and replace on the secret:
+##### And base64 encode and replace on the secret:
 
 ```shell
 cert=$(base64 -w 0 cert.crt); key=$(base64 -w 0 cert.key); sed "s/CERT/$cert/g" secret.yml | sed "s/KEY/$key/g"

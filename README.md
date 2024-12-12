@@ -401,6 +401,11 @@ spec:
 
 # Minimize Microservice Vulnerabilities
 
+## Use appropriate pod security standards
+
+- [K8s docs: Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/)
+- Feel comfortable knowing what to add to make a pod become "compliant" with what a baseline/restricted enforcing mode expects. 
+
 ## Manage Kubernetes secrets
 
 ### Obtain secrets value
